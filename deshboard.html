@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>car</title>
+    <script src="https://kit.fontawesome.com/1f36401625.js"
+      crossorigin="anonymous"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("road3.gif");
+
+  /* Full height */
+  height: 100vh; 
+  width: 100%;
+  
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+</style>
+    <script type="text/javascript">
+ var btn1_val=30%
+function shift_right(){
+
+var btn1=document.getElementById('img1').classList.add('bg-black');
+  
+
+}	
+</script>
+  </head>
+  <body>
+    <section>
+      <!-- background image -->
+      <div class="bg relative ">
+
+        <video src="v.mp4" id="video">
+
+        </video>
+
+
+        <!-- speed padel -->
+        <button onclick="shift_right()">
+          <img src="speed.png" id="img1" class="absolute bottom-[10%]
+            right-[25%] w-[4%]">
+        </button>
+        <!-- break padel -->
+        <button>
+          <img src="break.png" class="absolute bottom-[10%] right-[16%] w-[4%]">
+        </button>
+        <!--  left shift -->
+        <button class="p-3 rounded-full bottom-[10%] absolute font-bold
+          left-[25%]"
+          style="background-color: rgba(154, 220, 227, 0.3);">
+          <i class="fa-solid fa-chevron-right text-5xl "></i>
+        </button>
+        <!-- right shift -->
+        <button class="p-3 rounded-full bottom-[10%] font-bold left-[10%]
+          absolute "
+          style="background-color: rgba(154, 220, 227, 0.3);">
+          <i class="fa-solid fa-chevron-right text-5xl rotate-180 "></i>
+        </button>
+        <button onclick="play()">PLAY</button>
+        <button onclick="pause()">PAUSE</button>
+        <button onclick="speedUp()">SPEED UP</button>
+        <button onclick="speedDown()">SPEED DOWN</button>
+        <div class="w-[150px] h-[150px] absolute bottom-5 right-[45%]">
+          <img src="car1.gif">
+        </div>
+      </div>
+    </section>
+
+    <script>
+  var ps=1
+  function play(){
+      document.getElementById('video').play();
+  }
+  function pause(){
+  document.getElementById('video').pause();
+  }
+  function speedUp(){
+   ps=ps+0.1;
+ }
+ function speedDown(){
+   ps=ps-0.1;
+   }
+ function handleSpeed(){  
+  document.getElementById('video').playbackRate =ps;
+   }
+   setInterval(() => {
+    handleSpeed();
+   }, 10);
+</script>
+  </body>
+</html>
