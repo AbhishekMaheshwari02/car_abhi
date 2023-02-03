@@ -5,8 +5,9 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>racing_car_game</title>
 		<script src="https://cdn.tailwindcss.com"></script>
-		<link rel="stylesheet" type="text/css"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+		<link rel="stylesheet" type="text/css"	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+		
+		<script src="index.js"></script>
 		<style>
 body, html {
   height: 100%;
@@ -31,7 +32,7 @@ body, html {
 }
 </style>
 	</head>
-	<body>
+	<body onload="set_zero()">
 
 
 		<section>
@@ -49,11 +50,29 @@ body, html {
 
 					</video>
 					<div class="bg relative ">
-
+                          <div class="absolute right-10 top-10 justify-center">
+							SCORE <br> <input type="number" id="score" value="" class="bg-transparent text-red-600 text-4xl ">
+						  </div>
+						  <audio src="getcoin.wav"  id="audio"></audio>
+						  <audio src="engin.wav"  id="engin" loop></audio>
+						  <audio id="running" src="running.wav" loop></audio>
 						<!-- ===== OBSTACLES ====== -->
-
-
-
+                        <div> 
+							  CAR <br>
+							LEFT = <span id="vall"></span><br> 
+							LRIGHT = <span id="valr"></span> <br>
+							TOP = <span id="valt"></span> <br>
+							BOTTOM = <span id="valb"></span> 
+						</div>
+						<div> 
+							COIN <br>
+						  LEFT = <span id="cvall"></span><br> 
+						  LRIGHT = <span id="cvalr"></span> <br>
+						  TOP = <span id="cvalt"></span> <br>
+						  BOTTOM = <span id="cvalb"></span> 
+					  </div>
+                        
+                        <button onclick="carEnginMute()">MUTE SOUND</button>
 
 						<!-- speed padel -->
 						<button onclick="play()">
@@ -84,12 +103,13 @@ body, html {
 							<i class="fa-solid fa-chevron-right text-5xl rotate-180 "></i>
 						</button>
 
-						<div id="car" class="w-[15%] h-[150px] absolute bottom-[5%] p-0">
-							<img src="car8.png" style="width: 100%;">
+						<div id="car" class="w-[15%] h-[150px] absolute bottom-[10%] p-0 pt-10">
+							<img src="car8.png"  style="width: 100%;">
 						</div>
 
 
-						<img id="t1" class="absolute" src="t1.png">
+						<img id="coin" class="absolute w-[0px]" src="gcoin.png">
+						<img id="dcoin" class="absolute w-[50px]" src="rcoin.png">
 
 					</div>
 
@@ -157,7 +177,7 @@ body, html {
 
 
 
-				<button onclick="show()" id="play">
+				<button onclick="show(),carEngin()" id="play">
 					<div class="absolute right-[20%] top-[80%]">
 						<p class="w-52 text-white bg-[#cb9918] p-5 font-bold text-3xl italic">Play
 							Game</p>
@@ -185,57 +205,23 @@ body, html {
 	
 
 <script>
-	/* Get the documentElement (<html>) to display the page in fullscreen */
-	var elem = document.documentElement;
-	
-	/* View in fullscreen */
-	function openFullscreen() {
-	  if (elem.requestFullscreen) {
-		elem.requestFullscreen();
-	  } else if (elem.webkitRequestFullscreen) { /* Safari */
-		elem.webkitRequestFullscreen();
-	  } else if (elem.msRequestFullscreen) { /* IE11 */
-		elem.msRequestFullscreen();
-	  }
-	}
-	
-	/* Close fullscreen */
-	function closeFullscreen() {
-	  if (document.exitFullscreen) {
-		document.exitFullscreen();
-	  } else if (document.webkitExitFullscreen) { /* Safari */
-		document.webkitExitFullscreen();
-	  } else if (document.msExitFullscreen) { /* IE11 */
-		document.msExitFullscreen();
-	  }
-	}
-	</script>
-
-
-		<script type="text/javascript">
-	
-	function show(){
-		var btn1=document.getElementById('demo').classList.toggle('hidden')
-		var btn2=document.getElementById('play').classList.toggle('hidden')
-		var btn3=document.getElementById('controls-carousel').classList.toggle('hidden')
-		openFullscreen();
-	}
 //  --------------- CAR MOVEMENT CONTROLS-----------------
-var val=45;
+var val=20;
 document.addEventListener('keydown',(e)=>{
   console.log(e)  
   if (e.keyCode==37){
   	if (val==7){
 		pause()
 	} 
-	else val--;     
+	else val--;
 	 
   }
   if (e.keyCode==39){
     if (val==78){
 		pause()
 	} 
-	else val++;     
+	else val++; 
+
        }
 });
 
@@ -250,35 +236,46 @@ setInterval(()=>{
 //  --------------- VIDEO MOVEMENT CONTROLS-----------------
 
 var ps=0.0286
-var treeSpeed=1000
+var cspeed=5000
 
 function play(){
-      document.getElementById('video').play();
+    document.getElementById('video').play();
 		ps=ps+0.04;
-
-  }
+		carRunning();
+		carEnginMute();
+}
   // pause button
   function pause(){
   document.getElementById('video').pause();
+  cspeed=null
   setTimeout(setTime)
+  carEnginMute()
+  carRunningMute()
   }
 //   speed down
 function speedDown(){
 	document.getElementById('video').play();
    ps=ps-0.1;
-   treeSpeed=treeSpeed+100
+   treeSpeed=treeSpeed-100
    }
   document.addEventListener('keydown',(e)=>{
 	if (e.keyCode==38){
 		document.getElementById('video').play();
 		ps=ps+0.04;
-		treeSpeed=treeSpeed-100
+		cspeed=cspeed-200
+	    carRunning();
+		carEnginMute();
+		
 
 	}
 	if (e.keyCode==40){
 		document.getElementById('video').play();
-		ps=ps-0.04;
-		treeSpeed=treeSpeed+100
+		ps=ps-0.09;
+		cspeed=cspeed+500
+		carRunning();
+		carEnginMute();
+		
+		
 
 	}
   })
@@ -290,31 +287,6 @@ function speedDown(){
     handleSpeed();
    }, 10);
 
-
-//  ===================== OBSTACLES ========================
-
-let l=550
-let r=50
-var t=300
-var w=1
-
-function obs(){
-   
-	if (w>=200){
-	document.getElementById('t1').setAttribute('style','width:'+w+'px; left:'+l+'px;top:'+t+'px;');
-
-	l=550;
-	t=300;
-	w=1;
-	}
-	else{
-	document.getElementById('t1').setAttribute('style','width:'+w+'px; left:'+l+'px;top:'+t+'px;');
-	w=w+4;
-	t=t+0.5;
-	l=l-8   
-	}
-}
-var setTime=setInterval(()=>{obs()},100);
 </script>
 
 
