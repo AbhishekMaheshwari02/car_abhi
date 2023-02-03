@@ -5,8 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>racing_car_game</title>
 		<script src="https://cdn.tailwindcss.com"></script>
-		<link rel="stylesheet" type="text/css"	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-		
+		<link rel="stylesheet" type="text/css"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 		<script src="index.js"></script>
 		<style>
 body, html {
@@ -44,35 +44,38 @@ body, html {
 
 
 
-				<div id="demo" class="w-[100%] absolute bottom-0 hidden h-[100vh] bg-white overflow- ">
+				<div id="demo" class="w-[100%] absolute bottom-0 hidden h-[100vh] bg-white
+					overflow- ">
 					<!-- BACKGROUND MAIN VIDEO -->
-					<video src="v.mp4" id="video" style="width: 100vw; aspect-ratio: 16/9;" loop autoplay class="absolute m-0">
+					<video src="v.mp4" id="video" style="width: 100vw; aspect-ratio: 16/9;"
+						loop autoplay class="absolute m-0">
 
 					</video>
 					<div class="bg relative ">
-                          <div class="absolute right-10 top-10 justify-center">
-							SCORE <br> <input type="number" id="score" value="" class="bg-transparent text-red-600 text-4xl ">
-						  </div>
-						  <audio src="getcoin.wav"  id="audio"></audio>
-						  <audio src="engin.wav"  id="engin" loop></audio>
-						  <audio id="running" src="running.wav" loop></audio>
+						<div class="absolute right-10 top-10 justify-center">
+							SCORE <br> <input type="number" id="score" value="" class="bg-transparent
+								text-red-600 text-4xl ">
+						</div>
+						<audio src="getcoin.wav" id="audio"></audio>
+						<audio src="engin.wav" id="engin" loop></audio>
+						<audio id="running" src="running.wav" loop></audio>
 						<!-- ===== OBSTACLES ====== -->
-                        <div> 
-							  CAR <br>
-							LEFT = <span id="vall"></span><br> 
+						<div>
+							CAR <br>
+							LEFT = <span id="vall"></span><br>
 							LRIGHT = <span id="valr"></span> <br>
 							TOP = <span id="valt"></span> <br>
-							BOTTOM = <span id="valb"></span> 
+							BOTTOM = <span id="valb"></span>
 						</div>
-						<div> 
+						<div>
 							COIN <br>
-						  LEFT = <span id="cvall"></span><br> 
-						  LRIGHT = <span id="cvalr"></span> <br>
-						  TOP = <span id="cvalt"></span> <br>
-						  BOTTOM = <span id="cvalb"></span> 
-					  </div>
-                        
-                        <button onclick="carEnginMute()">MUTE SOUND</button>
+							LEFT = <span id="cvall"></span><br>
+							LRIGHT = <span id="cvalr"></span> <br>
+							TOP = <span id="cvalt"></span> <br>
+							BOTTOM = <span id="cvalb"></span>
+						</div>
+
+						<button onclick="carEnginMute()">MUTE SOUND</button>
 
 						<!-- speed padel -->
 						<button onclick="play()">
@@ -104,7 +107,7 @@ body, html {
 						</button>
 
 						<div id="car" class="w-[15%] h-[150px] absolute bottom-[10%] p-0 pt-10">
-							<img src="car8.png"  style="width: 100%;">
+							<img src="car8.png" style="width: 100%;">
 						</div>
 
 
@@ -177,7 +180,7 @@ body, html {
 
 
 
-				<button onclick="show(),carEngin()" id="play">
+				<button onclick="show(),carEngin(),startcoin(),set_zero()" id="play">
 					<div class="absolute right-[20%] top-[80%]">
 						<p class="w-52 text-white bg-[#cb9918] p-5 font-bold text-3xl italic">Play
 							Game</p>
@@ -201,33 +204,31 @@ body, html {
 
 		<script src="https://unpkg.com/flowbite@1.6.1/dist/flowbite.min.js">
 	</script>
+		<script>
 
-	
 
-<script>
 //  --------------- CAR MOVEMENT CONTROLS-----------------
 var val=20;
 document.addEventListener('keydown',(e)=>{
-  console.log(e)  
-  if (e.keyCode==37){
-  	if (val==7){
+console.log(e)  
+if (e.keyCode==37){
+if (val==7){
 		pause()
 	} 
 	else val--;
-	 
-  }
-  if (e.keyCode==39){
+
+}
+if (e.keyCode==39){
     if (val==78){
 		pause()
 	} 
 	else val++; 
-
-       }
+}
 });
 
 function carMovement(){
- document.getElementById('car').setAttribute('style',"left: "+val+"%; ")
- 
+	document.getElementById('car').setAttribute('style',"left: "+val+"%; ")
+
 }
 setInterval(()=>{
 	carMovement()
@@ -238,12 +239,103 @@ setInterval(()=>{
 var ps=0.0286
 var cspeed=5000
 
+let l=50
+var t=30
+var w=5
+
+let mcount = 0;
+let m = 7;
+
+
+function obs(){
+	mcount += 10;
+	if(mcount % m == 0){
+		if (t>=90){
+		document.getElementById('coin').setAttribute('style','width:'+w+'%; left:'+l+'%;top:'+t+'%;');
+	 
+		l= (Math.random() * 40 ) +30;
+		t=50;
+		w=5;
+		}
+		else{
+		document.getElementById('coin').setAttribute('style','width:'+w+'%; left:'+l+'%;top:'+t+'%;');
+		// w=w+4;
+		t=t+1;
+		// l=l-8   
+		}
+	}
+   
+}
+
+
+
+let l2=(Math.random() * 40 ) +30;
+var t2=30
+var w2=5
+
+let mcount2 = 0;
+
+let redcoin = null;
+
+function obs2(){
+	mcount2 += 10;
+	if(mcount2 % m == 0){
+		console.log(mcount2);
+		if (t2>=90){
+		document.getElementById('dcoin').setAttribute('style','width:'+w2+'%; left:'+l2+'%;top:'+t2+'%;');
+	 
+		l2= (Math.random() * 40 ) +30;
+		t2=50;
+		w2=5;
+		clearInterval(redcoin);
+		}
+		else{
+		document.getElementById('dcoin').setAttribute('style','width:'+w2+'%; left:'+l2+'%;top:'+t2+'%;');
+		// w=w+4;
+		t2=t2+1;
+		// l=l-8   
+		}
+	}
+   
+}
+
 function play(){
     document.getElementById('video').play();
 		ps=ps+0.04;
 		carRunning();
 		carEnginMute();
+		var setTime=setInterval(()=>{
+			obs()
+		},10);
 }
+
+function startcoin(){
+	var setTime=setInterval(()=>{
+		obs()
+	},10);
+}
+
+var rndm = 0;
+
+function handlered(){
+	rndm = Math.random() * 100;
+	console.log(parseInt(rndm));
+	if(parseInt(rndm) == 42){
+		if(redcoin == null){
+			redcoin = setInterval(()=>{
+				obs2()
+			},10);
+		}
+	}
+}
+
+setInterval(()=>{
+	handlered()
+},10);
+
+
+
+
   // pause button
   function pause(){
   document.getElementById('video').pause();
@@ -252,6 +344,8 @@ function play(){
   carEnginMute()
   carRunningMute()
   }
+
+
 //   speed down
 function speedDown(){
 	document.getElementById('video').play();
@@ -262,6 +356,9 @@ function speedDown(){
 	if (e.keyCode==38){
 		document.getElementById('video').play();
 		ps=ps+0.04;
+		if(m>1){
+			m-=1;
+		}
 		cspeed=cspeed-200
 	    carRunning();
 		carEnginMute();
@@ -271,24 +368,23 @@ function speedDown(){
 	if (e.keyCode==40){
 		document.getElementById('video').play();
 		ps=ps-0.09;
+		if(m<8){
+			m+=1;
+		}
 		cspeed=cspeed+500
 		carRunning();
-		carEnginMute();
-		
-		
+		carEnginMute();	
 
 	}
   })
   
   function handleSpeed(){  
-  document.getElementById('video').playbackRate =ps;
+  document.getElementById('video').playbackRate = ps;
    }
    setInterval(() => {
     handleSpeed();
    }, 10);
 
 </script>
-
-
 	</body>
 </html>
